@@ -78,7 +78,7 @@ module.exports = function(app, passport, webdir, gfs) {
 
     app.get('/listImages', function(req, res) {
         gfs.files.find({
-            contentType: /.*image.*/,
+            'metadata.boxe':true
         }).toArray(function(err, files) {
             res.send(files);
         })
@@ -110,45 +110,85 @@ module.exports = function(app, passport, webdir, gfs) {
                 res.send(500, err);
             });
             readstream.pipe(res);
-        });
-
-
-
-
+        })
     });
 
 
     app.post('/image', function(req, res) {
-        var readStream = new BufferStream(req.files.file.data);
 
-        gm(readStream)
-            .gravity('Center')
-            .threshold(20000)
-            .trim()
-            .borderColor('white')
-            .border(50, 50)
-            .stream('png', function(err, stdout, stderr) {
-                var metadata = { typeLabel: 'image' }
-                var writestream = gfs.createWriteStream({
-                    mode: 'w',
-                    content_type: 'image/png',
-                    metadata: metadata,
-                });
-                stdout.pipe(writestream);
+        var file = req.files.file
+        var ws = gfs.createWriteStream({
+            filename: file.name,
+            mode: 'w',
+            content_type: file.mimetype,
+        });
+        ws.write(file.data);
+        ws.end()
+        ws.on('close', function(originalImage) {
+            var readStream = new BufferStream(file.data);
 
-                writestream.on('close', function(file) {
-                    res.send({
-                        success: true,
-                        resource: metadata,
-                        operation: 'create',
-                        id:file._id,
+            gm(readStream)
+                .gravity('Center')
+                .threshold(20000)
+                .trim()
+                .borderColor('white')
+                .border(50, 50)
+                .stream('png', function(err, stdout, stderr) {
+                    var metadata = { 'original': originalImage._id,'boxe':true }
+                    var writestream = gfs.createWriteStream({
+                        mode: 'w',
+                        content_type: 'image/png',
+                        metadata: metadata,
+                    });
+                    stdout.pipe(writestream);
+
+                    writestream.on('close', function(newFile) {
+                        console.log('sending back')
+                        res.send({
+                            success: true,
+                            original: originalImage._id,
+                            operation: 'CREATE',
+                            id: newFile._id,
+                        });
+
+
                     });
 
+                });
+
+        })
+
+
+
+    })
+
+
+    app.delete('/file/:id', function(req, res) {
+        var options = {
+            _id: req.params.id
+        };
+
+        gfs.findOne(options, function(err, found) {
+            if (found) {
+                gfs.remove(options, function(err) {
+                    if (err) {
+                        res.send({
+                            success: false
+                        });
+                    } else {
+                        res.send({ success: true, resource: found.metadata, operation: 'DELETE' });
+
+                    }
 
                 });
 
-            });
-    })
+
+            }
+        });
+
+
+    });
+
 
     // PROFILE SECTION =========================
     // it is a way to know if user is currently authenticated (after reload for example)
@@ -211,7 +251,9 @@ module.exports = function(app, passport, webdir, gfs) {
 
 
 
+function convertAndSave(file, req, res) {
 
+}
 
 
 
