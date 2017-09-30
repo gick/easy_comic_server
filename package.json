@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "archiver": "^2.0.3",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.1",
     "busboy-body-parser": "^0.3.0",

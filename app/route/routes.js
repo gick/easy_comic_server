@@ -162,7 +162,9 @@ module.exports = function(app, passport, webdir, gfs) {
 
     })
 
-
+    app.get('/export',function(req,res){
+        
+    })
     app.delete('/file/:id', function(req, res) {
         var options = {
             _id: req.params.id
