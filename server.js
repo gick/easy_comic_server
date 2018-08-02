@@ -18,7 +18,7 @@ var bodyParser   = require('body-parser');
 var session      = require('express-session');
 var busboyBodyParser = require('busboy-body-parser');
 var configDB = require('./app/config/database.js');
-var webdir = require('./app/config/config.js');
+var webdir = __dirname +'/svelte-comic/public'
 Grid.mongo = mongoose.mongo;
 // configuration ===============================================================
 mongoose.connect(configDB[0].url); // connect to our database
@@ -29,7 +29,7 @@ app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json({limit: '50mb'}));
 //app.use(bodyParser.urlencoded({limit: '50mb'}));
 app.use(busboyBodyParser());
-
+app.use(express.static(webdir))
     // required for passport
 app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
 app.use(passport.initialize());
@@ -44,4 +44,4 @@ require('./app/route/routes.js')(app, passport,webdir,gfs); // load our routes a
 //require('./app/route/imageAnalysisRoute.js')(app, gfs,passport);
 
 // launch ======================================================================
-app.listen(8080)
+app.listen(80)

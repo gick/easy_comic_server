@@ -1,11 +1,16 @@
-<label for="file" class="label-file"><img src='./upload.png'/></label>
+<label for="file" class="label-file">Choose a file</label>
 
 <input id="file" class="input-file" ref:input on:change="fileSelected(this.files)" type="file" accept="image/*" capture="camera">
 <style>
 .label-file {
-    cursor: pointer;
-    color: #00b1ca;
-    font-weight: bold;
+  cursor: pointer;
+  color: #000000;
+  font-weight: bold;
+  display: block;
+  background-color: #9bd19b;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
 }
 .label-file:hover {
     color: #25a5c4;
@@ -90,7 +95,7 @@
             let formdata = new FormData()
             formdata.append('serverParams',JSON.stringify(encodeParam.serverParams))
             formdata.append('file', blob)
-            fetch('http://localhost:8080/image', {
+            fetch('/image', {
               method: 'POST',
               body: formdata
             }).then(data=>store.fetchImages())             
