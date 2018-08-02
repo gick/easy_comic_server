@@ -4,7 +4,6 @@
 // get all the tools we need
 var express  = require('express');
 var app      = express();
-let ENV = process.env.NODE_ENV
 let PORT = 443
 // Lets use this location as a convention
 let CERT_PATH='/home/gick/.cert/'
@@ -47,17 +46,15 @@ require('./app/route/routes.js')(app, passport,webdir,gfs); // load our routes a
 //require('./app/route/imageAnalysisRoute.js')(app, gfs,passport);
 
 // launch ======================================================================
-if (ENV === "production") {
+if (1) {
 	var secureServer = https.createServer({
 			key: fs.readFileSync(CERT_PATH+'privkey.pem'),
 			cert: fs.readFileSync(CERT_PATH+'cert.pem')
 		}, app)
-		.listen(PORT, function () {
-			console.log('Secure Server listening on port ' + PORT)
+		.listen(443, function () {
+			console.log('Secure Server listening on port ' + process.env.NODE_ENV)
 		})
 }
-
-//start a simple server for developpement
-if (ENV === "dev") {
+else if (ENV === "dev") {
 	app.listen(PORT)
 }
