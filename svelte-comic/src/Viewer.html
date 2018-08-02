@@ -1,0 +1,22 @@
+<img style="max-height:{maxHeight}" class="standardView" src="{resourceUrl}" />
+
+<style>
+	.standardView {
+		box-shadow: 10px 10px 5px -5px rgba(0, 0, 0, 0.75);
+	}
+</style>
+<script>
+	export default {
+		data() {
+			return {
+				maxHeight: '200px',
+				resourceId: '',
+			}
+		},
+		computed: {
+			resourceUrl: ({
+				resourceId
+			}) => 'http://localhost:8080/file/' + resourceId
+		}
+	}
+</script>
