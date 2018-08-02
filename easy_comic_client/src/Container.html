@@ -1,0 +1,83 @@
+<link rel="stylesheet" href="https://icono-49d6.kxcdn.com/icono.min.css">
+
+<div in:fade out:fade class="container">
+  <Viewer class="image" resourceId={image._id}/>
+  <div class="overlay">
+    <div on:click="removeResource()" class="icono-trash"></div>
+    <div on:click="fire('click',event)" class="icono-gear"></div>
+  </div>
+</div>
+
+<style>
+  .container:hover .overlay {
+    opacity: 1;
+  }
+  .icono-trash{
+    margin:13px 11px 7px;
+  }
+  .icono-trash:hover{
+    color:red;
+  }
+
+  .icono-gear{
+    margin:5px 11px 7px;
+  }
+  .icono-gear:hover{
+    color:red;
+  }
+
+  .container{
+    display: inline-block;
+    margin:10px;
+    position :relative;
+  }
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.5); /* Black see-through */
+    color: #f1f1f1;
+    width: 100%;
+    transition: .5s ease;
+    opacity:0;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    bottom:0;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .image {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<script>
+  import Viewer from './Viewer.html'
+  import { fly,fade } from 'svelte-transitions';
+
+  export default {
+    data(){
+			return {
+        image:{
+        }
+			}
+		},
+    transitions: { fly,fade },
+
+    methods:{
+      removeResource(){
+        let resourceId=this.get().image._id
+        this.store.removeImage(resourceId)
+      }
+    },
+    components: {
+      Viewer
+    }
+
+  }
+
+
+</script>

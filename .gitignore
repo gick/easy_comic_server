@@ -10,3 +10,5 @@ lib-cov
 
 npm-debug.log
 node_modules
+easy_comic_client/node_modules
+easy_comic_client/public

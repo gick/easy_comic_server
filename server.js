@@ -10,7 +10,6 @@ var fs=require('fs')
 var port     = process.env.PORT || 8000;
 var mongoose = require('mongoose');
 var passport = require('passport');
-var flash    = require('connect-flash');
 var Grid = require('gridfs-stream');
 
 var morgan       = require('morgan');
@@ -35,7 +34,6 @@ app.use(busboyBodyParser());
 app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
 var gfs = new Grid(mongoose.connection.db);
 
 
@@ -43,7 +41,7 @@ var gfs = new Grid(mongoose.connection.db);
 
 // routes ======================================================================
 require('./app/route/routes.js')(app, passport,webdir,gfs); // load our routes and pass in our app and fully configured passport
-//require('./app/route/imageAnalysisRoute.js')(app, gfs,passport); 
+//require('./app/route/imageAnalysisRoute.js')(app, gfs,passport);
 
 // launch ======================================================================
 app.listen(8080)
