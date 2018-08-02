@@ -10,10 +10,12 @@ module.exports = {
       name      : 'comicServer',
       script    : 'server.js',
       env: {
-        COMMON_VARIABLE: 'true'
+        NODE_ENV: 'dev',
+        PORT:80
       },
       env_production : {
-        NODE_ENV: 'production'
+        NODE_ENV: 'production',
+        PORT:443
       }
     }
   ],
@@ -30,7 +32,7 @@ module.exports = {
       ref  : 'origin/master',
       repo : 'git@github.com:gick/easy_comic_server.git',
       path : '/home/gick/easy-comic',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production'
+      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production',
     },
     dev : {
       user : 'gick',
@@ -39,10 +41,7 @@ module.exports = {
       ref  : 'origin/master',
       repo : 'git@github.com:gick/easy_comic_server.git',
       path : '/home/gick/easy-comic-dev',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production',
-      env  : {
-        NODE_ENV: 'dev'
-      }
+      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js',
     }
   }
 };

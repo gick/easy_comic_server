@@ -4,10 +4,13 @@
 // get all the tools we need
 var express  = require('express');
 var app      = express();
-var HTTPS_PORT = 443;
+let ENV = process.env.NODE_ENV
+let PORT = process.env.PORT
+// Lets use this location as a convention
+let CERT_PATH=process.env.HOME+'/.cert/'
 var fs=require('fs')
+var https = require('https')
 
-var port     = process.env.PORT || 8000;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var Grid = require('gridfs-stream');
@@ -44,4 +47,17 @@ require('./app/route/routes.js')(app, passport,webdir,gfs); // load our routes a
 //require('./app/route/imageAnalysisRoute.js')(app, gfs,passport);
 
 // launch ======================================================================
-app.listen(80)
+if (ENV === "production") {
+	var secureServer = https.createServer({
+			key: fs.readFileSync(CERT_PATH+'privkey.pem'),
+			cert: fs.readFileSync(CERT_PATH+'cert.pem')
+		}, app)
+		.listen(PORT, function () {
+			console.log('Secure Server listening on port ' + PORT)
+		})
+}
+
+//start a simple server for developpement
+if (ENV === "dev") {
+	app.listen(PORT)
+}
