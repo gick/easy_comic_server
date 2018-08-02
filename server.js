@@ -5,9 +5,9 @@
 var express  = require('express');
 var app      = express();
 let ENV = process.env.NODE_ENV
-let PORT = process.env.PORT
+let PORT = 443
 // Lets use this location as a convention
-let CERT_PATH=process.env.HOME+'/.cert/'
+let CERT_PATH='/home/gick/.cert/'
 var fs=require('fs')
 var https = require('https')
 

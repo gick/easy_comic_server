@@ -14,6 +14,7 @@
     "webpack-serve": "^1.0.2"
   },
   "scripts": {
+    "postinstall":"npm run build",
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "webpack-serve --content public --hot"
   },
