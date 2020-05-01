@@ -21,12 +21,15 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "stream": "0.0.2",
-    "util": "^0.10.3"
+    "util": "^0.10.3",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {},
   "scripts": {
     "postinstall": "cd svelte-comic && npm install",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -37,5 +40,6 @@
   "bugs": {
     "url": "https://github.com/gick/easy_comic_server/issues"
   },
-  "homepage": "https://github.com/gick/easy_comic_server#readme"
+  "homepage": "https://github.com/gick/easy_comic_server#readme",
+  "snyk": true
 }
