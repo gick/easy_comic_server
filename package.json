@@ -13,7 +13,7 @@
     "express": "^4.15.4",
     "express-session": "^1.15.5",
     "fs": "0.0.1-security",
-    "gm": "^1.23.0",
+    "gm": "^1.25.1",
     "gridfs-stream": "^1.1.1",
     "https": "^1.0.0",
     "mongoose": "^4.11.11",
